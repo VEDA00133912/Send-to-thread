@@ -1,4 +1,3 @@
-// index.js
 const { Client, GatewayIntentBits } = require('discord.js');
 const fs = require('fs');
 const { config } = require('dotenv');
@@ -21,9 +20,5 @@ for (const file of eventFiles) {
         client.on(event.name, (...args) => event.execute(...args));
     }
 }
-
-client.once('ready', () => {
-    console.log('Bot is online!');
-});
 
 client.login(process.env.token);
