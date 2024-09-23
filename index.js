@@ -11,14 +11,10 @@ const client = new Client({
     ]
 });
 
-const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
-for (const file of eventFiles) {
-    const event = require(`./events/${file}`);
-    if (event.once) {
-        client.once(event.name, (...args) => event.execute(...args));
-    } else {
-        client.on(event.name, (...args) => event.execute(...args));
-    }
-}
+fs.readdirSync('./events')
+  .filter(file => file.endsWith('.js')).forEach(file => {
+    const { name, once, execute } = require(`./events/${file}`);
+    client[once ? 'once' : 'on'](name, execute);
+  });
 
 client.login(process.env.token);
